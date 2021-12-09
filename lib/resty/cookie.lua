@@ -29,7 +29,7 @@ end
 
 local _M = new_tab(0, 2)
 
-_M._VERSION = '0.01'
+_M._VERSION = '0.03'
 
 
 local function get_cookie_table(text_cookie)
@@ -68,7 +68,7 @@ local function get_cookie_table(text_cookie)
             end
         elseif state == EXPECT_VALUE then
             if byte(text_cookie, j) == SEMICOLON
-                    or byte(text_cookie, j) == SPACE
+            --        or byte(text_cookie, j) == SPACE
                     or byte(text_cookie, j) == HTAB
             then
                 value = sub(text_cookie, i, j - 1)
@@ -97,8 +97,9 @@ local function get_cookie_table(text_cookie)
     return cookie_table
 end
 
-function _M.new(self)
-    local _cookie = ngx.var.http_cookie
+function _M.new(self, text_cookie)
+
+    local _cookie = text_cookie or ngx.var.http_cookie
     --if not _cookie then
         --return nil, "no cookie found in current request"
     --end
